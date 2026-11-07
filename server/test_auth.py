@@ -1,6 +1,7 @@
 import subprocess, time, requests, json, sys, os
+from pathlib import Path
 
-os.chdir(r"D:\work\wechat-article-fetcher-v3\server")
+os.chdir(Path(__file__).resolve().parent)
 env = dict(os.environ)
 env["DB_PATH"] = ":memory:"
 env["HTTP_ADDR"] = ":18080"

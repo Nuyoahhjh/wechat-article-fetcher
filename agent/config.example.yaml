@@ -40,7 +40,7 @@ llm:
   max_snapshot_chars: 32000
 
 mcp:
-  command: "C:\\Users\\27175\\.local\\bin\\windows-mcp.exe"
+  command: "${WINDOWS_MCP_COMMAND}"
   args:
     - "serve"
     - "--transport"
@@ -63,7 +63,7 @@ mcp:
     WINDOWS_MCP_MAX_TREE_ELEMENTS: "1200"
 
 wechat:
-  executable_path: "D:\\hjh\\微信\\Weixin\\Weixin.exe"
+  executable_path: "${WECHAT_EXECUTABLE_PATH}"
   process_name: "Weixin.exe"
   window_title_contains:
     - "微信"

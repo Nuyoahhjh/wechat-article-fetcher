@@ -30,9 +30,9 @@ go run ./cmd/server
 首次启动且数据库中没有用户时，会创建管理员：
 
 - 用户名：`BOOTSTRAP_ADMIN_USERNAME`，默认 `admin`
-- 密码：`BOOTSTRAP_ADMIN_PASSWORD`，默认 `admin123!`
+- 密码：`BOOTSTRAP_ADMIN_PASSWORD`
 
-默认凭据仅用于开发。部署前必须修改密码和两个密钥。
+请在首次启动前显式设置强密码；本地默认值仅用于开发，部署前必须轮换密码和两个密钥。
 
 ## 登录与调用
 
@@ -61,7 +61,7 @@ $body = @{
   version = "0.1.0"
   capabilities = @{
     windows_mcp = $true
-    vision_model = "qwen3.8-27b"
+    vision_model = "your-model-name"
   }
 } | ConvertTo-Json -Depth 5
 

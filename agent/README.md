@@ -13,13 +13,22 @@
 
 ## 安装
 
+环境要求：
+
+- Windows 10/11，当前会话未锁屏
+- Python 3.11+ 和 `uv`
+- 已登录的微信桌面端
+- `windows-mcp` 可执行文件
+- OpenAI 兼容的模型接口
+- 可选：独立的 `wechat-article-fetcher` 缓存工具
+
 ```powershell
-cd D:\work\wechat-article-fetcher-v3\agent
+cd agent
 uv sync
 Copy-Item .\config.example.yaml .\config.yaml
 ```
 
-配置环境变量：
+在 `agent/.env.local` 或当前 PowerShell 会话中配置：
 
 ```powershell
 $env:WECHAT_AGENT_LLM_API_KEY='<your-model-api-key>'
@@ -27,14 +36,19 @@ $env:WECHAT_AGENT_LLM_BASE_URL='https://your-openai-compatible-endpoint/v1'
 $env:WECHAT_AGENT_LLM_MODEL='your-vision-model'
 $env:WECHAT_AGENT_REGISTRATION_KEY='<platform-registration-key>'
 $env:WECHAT_PLATFORM_WS_URL='ws://127.0.0.1:8080/api/v1/agent/ws'
-$env:WECHAT_CACHE_CLI_PATH='D:\work\wechat-article-fetcher\bin\wechat-fetch.ps1'
+$env:WINDOWS_MCP_COMMAND='C:\path\to\windows-mcp.exe'
+$env:WECHAT_EXECUTABLE_PATH='C:\path\to\Weixin.exe'
+$env:WECHAT_CACHE_CLI_PATH='C:\path\to\wechat-fetch.ps1'
 ```
+
+`WECHAT_CACHE_CLI_PATH` 是可选项。未配置时 Agent 使用 UI 自动化路径。
 
 同时确认：
 
 - `wechat.executable_path` 指向本机微信可执行文件。
 - `mcp.command` 指向 `windows-mcp.exe`。
 - Windows 会话已登录微信。
+- `config.yaml` 只保存在本机，已被 `.gitignore` 排除。
 
 检查 MCP：
 
@@ -61,8 +75,8 @@ Agent 先读取微信 `bizProfile` 缓存中的公众号文章元数据。缓存
 - 缓存未命中：通过微信 UI 精确打开一次公众号主页，再重新读取缓存。
 - 请求数量超过缓存数量：返回可用的缓存文章，并将任务标记为不完整，不伪造缺失数据。
 
-缓存工具路径由 `WECHAT_CACHE_CLI_PATH` 配置，默认使用同机
-`wechat-article-fetcher` 的 `wechat-fetch.ps1`。
+缓存工具路径由 `WECHAT_CACHE_CLI_PATH` 配置。该工具独立安装，不在本仓库内；
+未配置时自动回退到微信 UI。
 
 ## 消息协议
 
